@@ -9,8 +9,15 @@
     "activeTab",
     "scripting"
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "quick-json-parser@reza.sh",
+      "strict_min_version": "109.0"
+    }
+  },
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"],
+    "type": "module"
   },
   "commands": {
     "parse-json-selection": {
