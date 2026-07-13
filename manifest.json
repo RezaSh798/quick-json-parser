@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Quick JSON Parser",
+  "version": "1.0",
+  "description": "پارس کردن سریع متون و لاگ‌های JSON انتخابی با راست‌کلیک یا شورت‌کات",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "parse-json-selection": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "پارس کردن متن انتخابی به عنوان JSON"
+    }
+  },
+  "action": {
+    "default_title": "Quick JSON Parser"
+  }
+}

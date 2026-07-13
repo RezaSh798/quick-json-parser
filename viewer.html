@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نمایشگر جادویی JSON</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="logo">🛠️ JSON LOG PARSER</div>
+    <div class="actions">
+      <button id="copy-btn">کپی کردن JSON مرتب شده</button>
+      <button id="collapse-all-btn">جمع کردن همه</button>
+      <button id="expand-all-btn">باز کردن همه</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- بخش نمایش خطای کامپایل -->
+    <div id="error-container" class="hidden">
+      <div class="error-header">❌ خطای اعتبارسنجی JSON</div>
+      <p id="error-message"></p>
+      <div class="raw-preview-container">
+        <label>متن خام دریافتی جهت بررسی:</label>
+        <textarea id="raw-text-fallback" readonly></textarea>
+      </div>
+    </div>
+
+    <!-- بخش رندر درختی JSON -->
+    <div id="json-tree-container" class="hidden">
+      <div id="json-root" class="json-tree"></div>
+    </div>
+  </main>
+
+  <script src="viewer.js"></script>
+</body>
+</html>

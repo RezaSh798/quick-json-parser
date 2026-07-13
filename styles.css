@@ -1,0 +1,183 @@
+:root {
+  --bg-color: #0d1117;
+  --panel-bg: #161b22;
+  --border-color: #30363d;
+  --text-main: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent-color: #58a6ff;
+  --error-color: #ff7b72;
+  --string-color: #a5d6ff;
+  --number-color: #ff9b5e;
+  --boolean-color: #79c0ff;
+  --key-color: #7ee787;
+  --null-color: #ff7b72;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-size: 14px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+  font-family: monospace;
+  font-size: 16px;
+}
+
+.actions button {
+  background-color: #21262d;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.actions button:hover {
+  background-color: #30363d;
+  border-color: #8b949e;
+}
+
+main {
+  padding: 20px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* استایل کادر خطا */
+#error-container {
+  border: 1px dashed var(--error-color);
+  background-color: rgba(248, 81, 73, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.error-header {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--error-color);
+  margin-bottom: 10px;
+}
+
+#error-message {
+  font-family: monospace;
+  line-height: 1.6;
+  direction: ltr;
+  text-align: left;
+}
+
+.raw-preview-container {
+  margin-top: 20px;
+}
+
+.raw-preview-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#raw-text-fallback {
+  width: 100%;
+  height: 180px;
+  background-color: #010409;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-radius: 6px;
+  font-family: "Fira Code", "Courier New", Courier, monospace;
+  padding: 10px;
+  resize: vertical;
+  direction: ltr;
+  box-sizing: border-box;
+}
+
+/* استایل‌های درخت رندر JSON */
+#json-tree-container {
+  background-color: #010409;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  font-family: "Fira Code", "JetBrains Mono", Consolas, "Courier New", monospace;
+  direction: ltr;
+  text-align: left;
+}
+
+.json-node {
+  margin-left: 20px;
+  line-height: 1.6;
+  position: relative;
+}
+
+.json-toggle {
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  position: absolute;
+  left: -15px;
+  top: 2px;
+}
+
+.json-toggle:hover {
+  color: var(--accent-color);
+}
+
+.json-key {
+  color: var(--key-color);
+  font-weight: bold;
+}
+
+.json-string {
+  color: var(--string-color);
+  word-break: break-all;
+}
+
+.json-number {
+  color: var(--number-color);
+}
+
+.json-boolean {
+  color: var(--boolean-color);
+  font-weight: bold;
+}
+
+.json-null {
+  color: var(--null-color);
+  font-style: italic;
+}
+
+.collapsed > .json-collapsed-preview {
+  display: inline;
+}
+
+.collapsed > .json-node, 
+.collapsed > .json-bracket-close {
+  display: none;
+}
+
+.json-collapsed-preview {
+  display: none;
+  color: var(--text-muted);
+  font-style: italic;
+  cursor: pointer;
+}
