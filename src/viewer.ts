@@ -3,36 +3,43 @@ import browser from "webextension-polyfill";
 const STORAGE_KEY = "quickJsonParserInput";
 const MAX_NESTED_PARSE_DEPTH = 5;
 
-const rootElement = getRequiredElement<HTMLElement>("json-root");
-const treeContainer = getRequiredElement<HTMLElement>("json-tree-container");
-const errorContainer = getRequiredElement<HTMLElement>("error-container");
-const errorMessage = getRequiredElement<HTMLElement>("error-message");
-const rawTextFallback = getRequiredElement<HTMLTextAreaElement>(
-  "raw-text-fallback"
-);
-
-const copyButton = getRequiredElement<HTMLButtonElement>("copy-btn");
-const collapseAllButton = getRequiredElement<HTMLButtonElement>(
-  "collapse-all-btn"
-);
-const expandAllButton = getRequiredElement<HTMLButtonElement>("expand-all-btn");
+// These are resolved once the DOM is ready. They must NOT be accessed at
+// module top level because the viewer script may execute before <body> is
+// parsed (e.g. a classic script in <head> on Firefox).
+let rootElement: HTMLElement;
+let treeContainer: HTMLElement;
+let errorContainer: HTMLElement;
+let errorMessage: HTMLElement;
+let rawTextFallback: HTMLTextAreaElement;
+let copyButton: HTMLButtonElement;
+let collapseAllButton: HTMLButtonElement;
+let expandAllButton: HTMLButtonElement;
 
 let parsedValue: unknown = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  rootElement = getRequiredElement<HTMLElement>("json-root");
+  treeContainer = getRequiredElement<HTMLElement>("json-tree-container");
+  errorContainer = getRequiredElement<HTMLElement>("error-container");
+  errorMessage = getRequiredElement<HTMLElement>("error-message");
+  rawTextFallback = getRequiredElement<HTMLTextAreaElement>("raw-text-fallback");
+  copyButton = getRequiredElement<HTMLButtonElement>("copy-btn");
+  collapseAllButton = getRequiredElement<HTMLButtonElement>("collapse-all-btn");
+  expandAllButton = getRequiredElement<HTMLButtonElement>("expand-all-btn");
+
+  copyButton.addEventListener("click", () => {
+    void copyJSON();
+  });
+
+  collapseAllButton.addEventListener("click", () => {
+    setAllNodesExpanded(false);
+  });
+
+  expandAllButton.addEventListener("click", () => {
+    setAllNodesExpanded(true);
+  });
+
   void initializeViewer();
-});
-
-copyButton.addEventListener("click", () => {
-  void copyJSON();
-});
-
-collapseAllButton.addEventListener("click", () => {
-  setAllNodesExpanded(false);
-});
-
-expandAllButton.addEventListener("click", () => {
-  setAllNodesExpanded(true);
 });
 
 async function initializeViewer(): Promise<void> {
