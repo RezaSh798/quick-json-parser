@@ -124,26 +124,33 @@ function getSelectedText(): string {
 }
 
 async function saveAndOpenViewer(text: string): Promise<void> {
+  // Persist as a fallback in case the URL parameter is lost or too long,
+  // then open the viewer with the text encoded directly in the URL so the
+  // popup does not depend on storage-write timing.
   try {
     await browser.storage.local.set({
       [STORAGE_KEY]: text
     });
-
-    await createViewerWindow();
   } catch (error) {
     console.error("Failed to save JSON input:", error);
-    await createViewerWindow();
   }
+
+  await createViewerWindow(text);
 }
 
 async function openViewer(text: string): Promise<void> {
   await saveAndOpenViewer(text);
 }
 
-async function createViewerWindow(): Promise<void> {
+async function createViewerWindow(input: string): Promise<void> {
   try {
+    const baseUrl = browser.runtime.getURL("viewer.html");
+    const url = input
+      ? `${baseUrl}?input=${encodeURIComponent(input)}`
+      : baseUrl;
+
     await browser.windows.create({
-      url: browser.runtime.getURL("viewer.html"),
+      url,
       type: "popup",
       width: VIEWER_WIDTH,
       height: VIEWER_HEIGHT

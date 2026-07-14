@@ -37,6 +37,17 @@ expandAllButton.addEventListener("click", () => {
 
 async function initializeViewer(): Promise<void> {
   try {
+    // Prefer the text passed via the URL (set by the background when the
+    // viewer is opened from a selection). This avoids any dependency on
+    // storage-write timing across browsers.
+    const urlInput = getInputFromUrl();
+
+    if (urlInput !== null && urlInput.trim()) {
+      parseAndRender(urlInput);
+      return;
+    }
+
+    // Fallback: read from storage (e.g. a manually opened popup).
     const storedData = await browser.storage.local.get(STORAGE_KEY);
     const storedInput = storedData[STORAGE_KEY];
 
@@ -49,6 +60,17 @@ async function initializeViewer(): Promise<void> {
     await browser.storage.local.remove(STORAGE_KEY);
   } catch (error) {
     showError(toErrorMessage(error), "");
+  }
+}
+
+function getInputFromUrl(): string | null {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const input = params.get("input");
+
+    return input === null ? null : decodeURIComponent(input);
+  } catch {
+    return null;
   }
 }
 
