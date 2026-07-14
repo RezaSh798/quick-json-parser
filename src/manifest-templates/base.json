@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Quick JSON Parser",
+  "version": "1.1.0",
+  "description": "Parse log and text strings containing JSON into an interactive tree viewer.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "contextMenus"
+  ],
+  "commands": {
+    "open-json-parser": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Open selected text in Quick JSON Parser"
+    }
+  },
+  "action": {
+    "default_popup": "src/viewer.html"
+  }
+}
