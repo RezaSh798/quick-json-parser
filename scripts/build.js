@@ -11,6 +11,19 @@ console.log(`🚀 Starting build for ${target}...`);
 // 1. Run Vite Build
 execSync(`vite build`, { stdio: 'inherit' });
 
+// 1b. Firefox background scripts must be classic (non-module) scripts,
+// so compile it separately into a self-contained IIFE. Firefox does not
+// support ES modules in `background.scripts`.
+if (target === 'firefox') {
+  const backgroundEntry = path.resolve('src/background.ts');
+  const backgroundOut = path.join(distDir, 'background.js');
+
+  execSync(
+    `node_modules/.bin/esbuild "${backgroundEntry}" --bundle --format=iife --platform=browser --outfile="${backgroundOut}"`,
+    { stdio: 'inherit' }
+  );
+}
+
 // 2. Generate custom manifest.json
 const baseManifest = JSON.parse(fs.readFileSync('src/manifest-templates/base.json', 'utf8'));
 const overrideManifest = JSON.parse(fs.readFileSync(`src/manifest-templates/${target}.json`, 'utf8'));
